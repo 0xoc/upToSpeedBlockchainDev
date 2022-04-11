@@ -2,10 +2,10 @@
 
 ### web 3 python
 
-- [ ] install web 3
-- [ ] read name and total supply of an erc20
-- [ ] transfer some tokens
-- [ ] read events
+- [x] install web 3
+- [x] read name and total supply of an erc20
+- [x] transfer some tokens
+- [x] read events
 
 ### remix
 
