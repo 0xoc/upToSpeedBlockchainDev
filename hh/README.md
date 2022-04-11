@@ -1,6 +1,6 @@
 # Sample hardhat project
 
-this projects makes use of Uniswap v2 and Uniswap v3, to perform test swaps and add test liquidity
+this project makes use of Uniswap v2 and Uniswap v3, to perform test swaps and add test liquidity
 
 ## Quick start
 
