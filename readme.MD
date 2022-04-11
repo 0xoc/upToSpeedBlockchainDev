@@ -14,7 +14,7 @@
 ### sample hardhat project (hh)
 
 - [ ] sample hardhat project (interact with uniswap interface)
-  - [ ] swap in v2
+  - [x] swap in v2
   - [x] swap in v3
   - [ ] LP in v2
   - [ ] LP in v3

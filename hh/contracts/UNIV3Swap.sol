@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity =0.7.6;
+pragma solidity >=0.7.6;
 pragma abicoder v2;
 
 import "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
@@ -8,7 +8,7 @@ import "@uniswap/v3-periphery/contracts/libraries/TransferHelper.sol";
 
 import "hardhat/console.sol";
 
-contract UniManager {
+contract UNIV3Swapper {
     ISwapRouter public immutable swapRouter;
 
     address public DAI;
@@ -29,7 +29,6 @@ contract UniManager {
         external
         returns (uint256 amountOut)
     {
-
         TransferHelper.safeTransferFrom(
             DAI,
             msg.sender,
@@ -55,5 +54,5 @@ contract UniManager {
         amountOut = swapRouter.exactInputSingle(params);
     }
 
-    fallback () external payable {}
+    fallback() external payable {}
 }

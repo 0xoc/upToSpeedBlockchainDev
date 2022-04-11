@@ -1,6 +1,6 @@
 import { ethers, network } from "hardhat";
 import { expect } from "chai";
-import { IERC20, UNIV3Swapper } from "../typechain";
+import { IERC20, UNIV2Swapper, UNIV3Swapper } from "../typechain";
 import settings from "../networks.config";
 
 function getNetwork(): "rinkeby" | "hardhat" | undefined {
@@ -12,12 +12,12 @@ function getNetwork(): "rinkeby" | "hardhat" | undefined {
   }
 }
 
-const SwapRouter: string | undefined = settings[getNetwork()!]["SwapRouterv3"];
+const SwapRouter: string | undefined = settings[getNetwork()!]["SwapRouterv2"];
 const DAI_ADDRESS: string | undefined = settings[getNetwork()!]["DAI"];
 const WETH_ADDRESS: string | undefined = settings[getNetwork()!]["WETH"];
 
-describe("Uniswap v3 test", async () => {
-  let UNIV3SwapperContract: UNIV3Swapper;
+describe("Uniswap v2 test", async () => {
+  let UNIV2SwapperContract: UNIV2Swapper;
   let DAI: IERC20;
   let WETH: IERC20;
 
@@ -39,13 +39,13 @@ describe("Uniswap v3 test", async () => {
 
   before(async () => {
     await loadTokens();
-    let UniManagerFactory = await ethers.getContractFactory("UNIV3Swapper");
-    UNIV3SwapperContract = await UniManagerFactory.deploy(
+    let UniManagerFactory = await ethers.getContractFactory("UNIV2Swapper");
+    UNIV2SwapperContract = await UniManagerFactory.deploy(
       SwapRouter!,
       DAI.address,
       WETH.address
     );
-    await UNIV3SwapperContract.deployed();
+    await UNIV2SwapperContract.deployed();
   });
   it("should have at least 10 dai", async () => {
     let [signer] = await ethers.getSigners();
@@ -55,19 +55,19 @@ describe("Uniswap v3 test", async () => {
   it("should approve contract to spend dai", async () => {
     let [signer] = await ethers.getSigners();
     let tx = await DAI.approve(
-      UNIV3SwapperContract.address,
+      UNIV2SwapperContract.address,
       ethers.utils.parseEther("100")
     );
     await tx.wait(1);
     let allowance = await DAI.allowance(
       signer.address,
-      UNIV3SwapperContract.address
+      UNIV2SwapperContract.address
     );
     expect(allowance.sub(ethers.utils.parseEther("100")).isNegative()).to.be
       .false;
   });
   it("Should swap 100 dai to weth", async () => {
-    let out = await UNIV3SwapperContract.swapExactInputSingle(
+    let out = await UNIV2SwapperContract.swapExactInputSingle(
       ethers.utils.parseEther("10")
     );
     await out.wait(1);
