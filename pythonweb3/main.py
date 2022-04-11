@@ -34,6 +34,9 @@ def transfer(amount):
     receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
     print("[INFO] receipt ", receipt)
 
+    events = ERC20.events.Transfer().processReceipt(receipt)
+    print("[INFO] Events ", events)
+
 
 def run():
     print_account_info()
