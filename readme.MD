@@ -9,7 +9,7 @@
 
 ### remix
 
-- [ ] use remix
+- [x] use remix
 
 ### sample hardhat project
 
