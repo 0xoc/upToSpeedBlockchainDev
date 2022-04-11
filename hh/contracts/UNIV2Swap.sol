@@ -4,8 +4,17 @@ pragma solidity >=0.7.6;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol";
 
+interface IUniswapV2Factory {
+    function getPair(address token0, address token1)
+        external
+        view
+        returns (address);
+}
+
 contract UNIV2Swapper {
-    IUniswapV2Router02 router;
+    IUniswapV2Router02 private router;
+    IUniswapV2Factory private factory =
+        IUniswapV2Factory(0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f);
     IERC20 public DAI;
     IERC20 public WETH;
 
@@ -19,10 +28,7 @@ contract UNIV2Swapper {
         WETH = _WETH;
     }
 
-    function swapExactInputSingle(uint256 amountIn)
-        external
-        returns (uint256 amountOut)
-    {
+    function swapExactInputSingle(uint256 amountIn) external {
         require(
             DAI.transferFrom(msg.sender, address(this), amountIn),
             "transferFrom failed."
@@ -34,14 +40,44 @@ contract UNIV2Swapper {
         path[0] = address(DAI);
         path[1] = address(WETH);
 
-        return
-            router.swapExactTokensForTokens(
-                amountIn,
-                0, // bad consider proper silipage
-                path,
-                msg.sender,
-                block.timestamp
-            );
+        router.swapExactTokensForTokens(
+            amountIn,
+            0, // bad consider proper silipage
+            path,
+            msg.sender,
+            block.timestamp
+        );
+    }
+
+    function getPair() public view returns (address) {
+        return factory.getPair(address(DAI), address(WETH));
+    }
+
+    function lpBalance() public view returns (uint256) {
+        IERC20 lp = IERC20(getPair());
+        return lp.balanceOf(msg.sender);
+    }
+
+    function removeAllLiquidity() external {
+        IERC20 lp = IERC20(getPair());
+        uint256 liquidity = lp.balanceOf(msg.sender);
+
+        require(
+            lp.transferFrom(msg.sender, address(this), liquidity),
+            "transferFrom failed."
+        );
+
+        lp.approve(address(router), liquidity);
+
+        router.removeLiquidity(
+            address(DAI),
+            address(WETH),
+            liquidity,
+            0, // bad,
+            0,
+            msg.sender,
+            block.timestamp
+        );
     }
 
     function addLiquidity(uint256 amountDAI, uint256 amountWETH)

@@ -84,5 +84,19 @@ describe("Uniswap v2 test", async () => {
       ethers.utils.parseEther("0.0001")
     );
     await tx.wait(1);
+    let balance = await UNIV2SwapperContract.lpBalance();
+    expect(balance.gt(0)).to.be.true;
+  });
+  it("should remove all liquidity", async () => {
+    let lpAddress = await UNIV2SwapperContract.getPair();
+    let lp = await ethers.getContractAt("IERC20", lpAddress);
+    let balance = await UNIV2SwapperContract.lpBalance();
+    expect(balance.gt(0)).to.be.true;
+    let approveTx = await lp.approve(UNIV2SwapperContract.address, balance);
+    await approveTx.wait(1);
+    let tx = await UNIV2SwapperContract.removeAllLiquidity();
+    await tx.wait(1);
+    balance = await UNIV2SwapperContract.lpBalance();
+    expect(balance.eq(0)).to.be.true;
   });
 });
