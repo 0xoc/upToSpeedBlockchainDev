@@ -15,7 +15,7 @@
 
 - [ ] sample hardhat project (interact with uniswap interface)
   - [ ] swap in v2
-  - [ ] swap in v3
+  - [x] swap in v3
   - [ ] LP in v2
   - [ ] LP in v3
 
