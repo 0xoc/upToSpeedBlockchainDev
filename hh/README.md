@@ -38,5 +38,6 @@ const config = {
 ```
 
 ```shell
+npx hardhat typechain
 npx hardhat test --network rinkeby
 ```
