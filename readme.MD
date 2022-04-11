@@ -13,10 +13,10 @@
 
 ### sample hardhat project (hh)
 
-- [ ] sample hardhat project (interact with uniswap interface)
+- [x] sample hardhat project (interact with uniswap interface)
   - [x] swap in v2
   - [x] swap in v3
-  - [ ] LP in v2
+  - [x] LP in v2
   - [ ] LP in v3
 
 ### openzepplin

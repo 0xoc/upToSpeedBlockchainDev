@@ -1,6 +1,6 @@
 import { ethers, network } from "hardhat";
 import { expect } from "chai";
-import { IERC20, UNIV2Swapper, UNIV3Swapper } from "../typechain";
+import { IERC20, UNIV2Swapper } from "../typechain";
 import settings from "../networks.config";
 
 function getNetwork(): "rinkeby" | "hardhat" | undefined {
@@ -52,13 +52,19 @@ describe("Uniswap v2 test", async () => {
     let balance = await DAI.balanceOf(signer.address);
     expect(balance.sub(ethers.utils.parseEther("10")).isNegative()).to.be.false;
   });
-  it("should approve contract to spend dai", async () => {
+  it("should approve contract to spend dai and weth", async () => {
     let [signer] = await ethers.getSigners();
-    let tx = await DAI.approve(
+    let txDai = await DAI.approve(
       UNIV2SwapperContract.address,
       ethers.utils.parseEther("100")
     );
-    await tx.wait(1);
+
+    let txWETH = await WETH.approve(
+      UNIV2SwapperContract.address,
+      ethers.utils.parseEther("100")
+    );
+    await txWETH.wait(1);
+    await txDai.wait(1);
     let allowance = await DAI.allowance(
       signer.address,
       UNIV2SwapperContract.address
@@ -71,5 +77,12 @@ describe("Uniswap v2 test", async () => {
       ethers.utils.parseEther("10")
     );
     await out.wait(1);
+  });
+  it("should add liquidity", async () => {
+    let tx = await UNIV2SwapperContract.addLiquidity(
+      ethers.utils.parseEther("10"),
+      ethers.utils.parseEther("0.0001")
+    );
+    await tx.wait(1);
   });
 });

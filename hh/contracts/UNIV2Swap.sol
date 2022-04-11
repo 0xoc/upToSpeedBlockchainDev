@@ -42,4 +42,38 @@ contract UNIV2Swapper {
             block.timestamp
         );
     }
+
+    function addLiquidity(uint256 amountDAI, uint256 amountWETH)
+        external
+        payable
+        returns (
+            uint256 amountToken,
+            uint256 amountETH,
+            uint256 liquidity
+        )
+    {
+        require(
+            DAI.transferFrom(msg.sender, address(this), amountDAI),
+            "DAI Transfer Failed"
+        );
+        require(
+            WETH.transferFrom(msg.sender, address(this), amountWETH),
+            "WETH Transfer Failed"
+        );
+
+        require(DAI.approve(address(router), amountDAI), "approve failed.");
+        require(WETH.approve(address(router), amountWETH), "approve failed.");
+
+        return
+            router.addLiquidity(
+                address(DAI),
+                address(WETH),
+                amountDAI,
+                amountWETH,
+                0,
+                0,
+                address(msg.sender),
+                block.timestamp
+            );
+    }
 }
