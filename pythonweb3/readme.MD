@@ -3,6 +3,10 @@
 Use sample erc20 token on rinkeby to preform simple operations.
 
 ## Quick start
+create a python virtualenv, activate it and then install the requirements
+```shell
+pip install -r requirements.txt
+```
 
 ### account
 
