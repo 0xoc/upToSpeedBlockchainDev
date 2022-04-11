@@ -1,5 +1,5 @@
 import { ethers } from "hardhat";
-import { MIN_DELAY } from "./config";
+import { MIN_DELAY } from "../config";
 
 export async function deployNiceTimeLock() {
   let Factory = await ethers.getContractFactory("NiceTimeLock");

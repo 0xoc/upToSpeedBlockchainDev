@@ -1,46 +1,40 @@
-# Advanced Sample Hardhat Project
+# Nice Storage
 
-This project demonstrates an advanced Hardhat use case, integrating other tools commonly used alongside Hardhat in the ecosystem.
+Nice storage is a contract that allows a value to be stored in a decentralized manner through a governance
+mechanism.
 
-The project comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts. It also comes with a variety of other tools, preconfigured to work with the project code.
-
-Try running some of the following tasks:
-
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-npx hardhat help
-REPORT_GAS=true npx hardhat test
-npx hardhat coverage
-npx hardhat run scripts/deploy.ts
-TS_NODE_FILES=true npx ts-node scripts/deploy.ts
-npx eslint '**/*.{js,ts}'
-npx eslint '**/*.{js,ts}' --fix
-npx prettier '**/*.{json,sol,md}' --check
-npx prettier '**/*.{json,sol,md}' --write
-npx solhint 'contracts/**/*.sol'
-npx solhint 'contracts/**/*.sol' --fix
-```
-
-# Etherscan verification
-
-To try out Etherscan verification, you first need to deploy a contract to an Ethereum network that's supported by Etherscan, such as Ropsten.
-
-In this project, copy the .env.example file to a file named .env, and then edit it to fill in the details. Enter your Etherscan API key, your Ropsten node URL (eg from Alchemy), and the private key of the account which will send the deployment transaction. With a valid .env file in place, first deploy your contract:
+## Quick start
 
 ```shell
-hardhat run --network ropsten scripts/deploy.ts
+npm install
 ```
 
-Then, copy the deployment address and paste it in to replace `DEPLOYED_CONTRACT_ADDRESS` in this command:
+before running scripts, you can configure the setup by editing `scripts/config.ts`
+
+```typescript
+export const MIN_DELAY = 1; // in blocks
+export const VOTING_DELAY = 1;
+export const QUORUM_AMOUNT = 0;
+export const VOTING_PERIOD = 1;
+```
+
+to deploy and setup a nice storage instance run the following
 
 ```shell
-npx hardhat verify --network ropsten DEPLOYED_CONTRACT_ADDRESS "Hello, Hardhat!"
+$ npx hardhat run scripts/deploy/setup.ts
+Token deployed at  0x5FbDB2315678afecb367f032d93F642f64180aa3
+Nice Time Lock deployed at  0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
+Nice Governor deployed at  0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0
+Nice Storage deployed at  0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9
+Transfer ownership to NiceTimeLock
+Ownership transferred
 ```
 
-# Performance optimizations
+there are 4 deploy stages which the above scripts automatically goes through.
 
-For faster runs of your tests and scripts, consider skipping ts-node's type checking by setting the environment variable `TS_NODE_TRANSPILE_ONLY` to `1` in hardhat's environment. For more details see [the documentation](https://hardhat.org/guides/typescript.html#performance-optimizations).
+you can also manually go through each stage by running each of the scripts under `scripts/deploy` directory
+
+- `00_deployNiceToken` deploys the governance token
+- `01_deployNiceTimeLock` deploys the time lock that will be the owner of the nice storage
+- `02_deployNiceGovernor` deploys the governance contract
+- `03_deployNiceStorage` deploys the nice storage contract and transfers ownership to time lock

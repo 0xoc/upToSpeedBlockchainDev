@@ -1,6 +1,6 @@
 import { ethers } from "hardhat";
 import { NiceTimeLock, NiceToken } from "../../typechain";
-import { QUORUM_AMOUNT, VOTING_DELAY, VOTING_PERIOD } from "./config";
+import { QUORUM_AMOUNT, VOTING_DELAY, VOTING_PERIOD } from "../config";
 
 export async function deployNiceGovernor(
   token: NiceToken,

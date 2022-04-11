@@ -19,12 +19,12 @@
   - [x] LP in v2
   - [ ] LP in v3
 
-### openzepplin
+### openzepplin (gov)
 
 - [x] overview
 - [x] Wizard
-- [ ] Access Control
+- [x] Access Control
 - [x] tokens
-- [ ] Governance
-- [ ] utils
-- [ ] API
+- [x] Governance
+- [x] utils
+- [x] API
