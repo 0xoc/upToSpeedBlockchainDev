@@ -1,33 +1,30 @@
 # Getting up to speed with blockchain dev
 
-### web 3 python
+### remix
+
+- [x] use remix
+
+### web 3 python (pythonweb3)
 
 - [x] install web 3
 - [x] read name and total supply of an erc20
 - [x] transfer some tokens
 - [x] read events
 
-### remix
+### sample hardhat project (hh)
 
-- [x] use remix
-
-### sample hardhat project
-
-- [ ] sample hardhat project
+- [ ] sample hardhat project (interact with uniswap interface)
+  - [ ] swap in v2
+  - [ ] swap in v3
+  - [ ] LP in v2
+  - [ ] LP in v3
 
 ### openzepplin
 
-- [ ] overview
-- [ ] Wizard
+- [x] overview
+- [x] Wizard
 - [ ] Access Control
-- [ ] tokens
+- [x] tokens
 - [ ] Governance
 - [ ] utils
 - [ ] API
-
-### Uniswap
-
-- [ ] swap in v2
-- [ ] swap in v3
-- [ ] LP in v2
-- [ ] LP in v3
