@@ -34,13 +34,14 @@ contract UNIV2Swapper {
         path[0] = address(DAI);
         path[1] = address(WETH);
 
-        router.swapExactTokensForETH(
-            amountIn,
-            0,
-            path,
-            msg.sender,
-            block.timestamp
-        );
+        return
+            router.swapExactTokensForTokens(
+                amountIn,
+                0, // bad consider proper silipage
+                path,
+                msg.sender,
+                block.timestamp
+            );
     }
 
     function addLiquidity(uint256 amountDAI, uint256 amountWETH)
@@ -70,7 +71,7 @@ contract UNIV2Swapper {
                 address(WETH),
                 amountDAI,
                 amountWETH,
-                0,
+                0, // bad, consider proper slipage
                 0,
                 address(msg.sender),
                 block.timestamp
